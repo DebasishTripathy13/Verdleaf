@@ -49,6 +49,7 @@ export default function DashboardLayout({
   // Demo user data
   const userData = user || {
     name: 'Eco Guardian',
+    avatar: null,
     ecoPoints: 1250,
     totalXP: 850,
     level: 3,
@@ -100,7 +101,7 @@ export default function DashboardLayout({
           <div className="p-4 border-b border-gray-800">
             <div className="flex items-center gap-3 mb-3">
               <Avatar className="w-12 h-12 border-2 border-emerald-500">
-                <AvatarImage src={userData.avatar || undefined} alt={userData.name} className="object-cover" />
+                <AvatarImage src={userData.avatar ?? undefined} alt={userData.name ?? 'Guardian'} className="object-cover" />
                 <AvatarFallback className="bg-emerald-500/20 text-emerald-400">
                   {userData.name?.[0] || 'G'}
                 </AvatarFallback>
