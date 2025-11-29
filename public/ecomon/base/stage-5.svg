@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#10b981;stop-opacity:0.5" />
+      <stop offset="100%" style="stop-color:#047857;stop-opacity:0.7" />
+    </linearGradient>
+    <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6ee7b7" />
+      <stop offset="50%" style="stop-color:#34d399" />
+      <stop offset="100%" style="stop-color:#047857" />
+    </linearGradient>
+    <linearGradient id="crownGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" style="stop-color:#22c55e" />
+      <stop offset="100%" style="stop-color:#86efac" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Outer glow -->
+  <circle cx="128" cy="128" r="125" fill="none" stroke="#34d399" stroke-width="2" opacity="0.3"/>
+  <circle cx="128" cy="128" r="120" fill="url(#bgGrad)" stroke="#22c55e" stroke-width="4"/>
+  
+  <!-- Body - ancient -->
+  <ellipse cx="128" cy="150" rx="60" ry="70" fill="url(#bodyGrad)"/>
+  
+  <!-- Ancient markings -->
+  <path d="M 90 140 Q 85 155 90 170" stroke="#047857" stroke-width="2" fill="none"/>
+  <path d="M 166 140 Q 171 155 166 170" stroke="#047857" stroke-width="2" fill="none"/>
+  <circle cx="128" cy="180" r="8" fill="none" stroke="#047857" stroke-width="2"/>
+  
+  <!-- Wise eyes -->
+  <ellipse cx="102" cy="125" rx="16" ry="14" fill="white"/>
+  <ellipse cx="154" cy="125" rx="16" ry="14" fill="white"/>
+  <circle cx="105" cy="127" r="8" fill="#1f2937"/>
+  <circle cx="157" cy="127" r="8" fill="#1f2937"/>
+  <circle cx="107" cy="125" r="3" fill="white"/>
+  <circle cx="159" cy="125" r="3" fill="white"/>
+  
+  <!-- Serene smile -->
+  <path d="M 105 158 Q 128 178 151 158" stroke="#1f2937" stroke-width="4" fill="none" stroke-linecap="round"/>
+  
+  <!-- Majestic crown of leaves -->
+  <path d="M 128 70 Q 190 15 220 45 Q 180 85 128 80" fill="url(#crownGrad)"/>
+  <path d="M 128 70 Q 66 15 36 45 Q 76 85 128 80" fill="url(#crownGrad)"/>
+  <path d="M 128 55 Q 155 10 175 30 Q 155 60 128 70 Q 101 60 81 30 Q 101 10 128 55" fill="#16a34a"/>
+  <path d="M 128 45 Q 128 20 150 25 Q 140 50 128 55 Q 116 50 106 25 Q 128 20 128 45" fill="#22c55e"/>
+  
+  <!-- Crown gem -->
+  <circle cx="128" cy="35" r="8" fill="#fcd34d"/>
+  <circle cx="128" cy="35" r="5" fill="#fef08a"/>
+  
+  <!-- Inner glow -->
+  <circle cx="128" cy="128" r="75" fill="none" stroke="#6ee7b7" stroke-width="1" opacity="0.6"/>
+  
+  <!-- Multiple sparkles -->
+  <path d="M 25 35 L 36 55 L 25 75 L 14 55 Z" fill="#fcd34d"/>
+  <path d="M 225 30 L 236 50 L 225 70 L 214 50 Z" fill="#fcd34d"/>
+  <path d="M 200 170 L 211 190 L 200 210 L 189 190 Z" fill="#fcd34d"/>
+  <path d="M 50 175 L 61 195 L 50 215 L 39 195 Z" fill="#fcd34d"/>
+  <path d="M 128 215 L 136 228 L 128 241 L 120 228 Z" fill="#fcd34d"/>
+</svg>

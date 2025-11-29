@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#10b981;stop-opacity:0.3" />
+      <stop offset="100%" style="stop-color:#059669;stop-opacity:0.5" />
+    </linearGradient>
+    <linearGradient id="leafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#34d399" />
+      <stop offset="100%" style="stop-color:#10b981" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="128" cy="128" r="120" fill="url(#bgGrad)" stroke="#34d399" stroke-width="2"/>
+  
+  <!-- Leaf body -->
+  <ellipse cx="128" cy="140" rx="50" ry="60" fill="url(#leafGrad)"/>
+  
+  <!-- Eyes -->
+  <circle cx="110" cy="125" r="12" fill="white"/>
+  <circle cx="146" cy="125" r="12" fill="white"/>
+  <circle cx="112" cy="127" r="6" fill="#1f2937"/>
+  <circle cx="148" cy="127" r="6" fill="#1f2937"/>
+  <circle cx="114" cy="125" r="2" fill="white"/>
+  <circle cx="150" cy="125" r="2" fill="white"/>
+  
+  <!-- Smile -->
+  <path d="M 115 150 Q 128 165 141 150" stroke="#1f2937" stroke-width="3" fill="none" stroke-linecap="round"/>
+  
+  <!-- Leaf on head -->
+  <path d="M 128 80 Q 145 60 160 75 Q 155 95 128 100 Q 101 95 96 75 Q 111 60 128 80" fill="#22c55e"/>
+  <path d="M 128 80 L 128 95" stroke="#15803d" stroke-width="2"/>
+  
+  <!-- Blush -->
+  <ellipse cx="95" cy="145" rx="10" ry="6" fill="#fca5a5" opacity="0.6"/>
+  <ellipse cx="161" cy="145" rx="10" ry="6" fill="#fca5a5" opacity="0.6"/>
+  
+  <!-- Sparkles -->
+  <path d="M 50 60 L 55 70 L 50 80 L 45 70 Z" fill="#fcd34d"/>
+  <path d="M 200 50 L 205 60 L 200 70 L 195 60 Z" fill="#fcd34d"/>
+  <path d="M 180 180 L 185 190 L 180 200 L 175 190 Z" fill="#fcd34d"/>
+</svg>

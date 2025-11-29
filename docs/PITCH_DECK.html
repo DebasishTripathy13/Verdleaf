@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verdleaf - Hackathon Pitch Deck</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --primary: #00ffa3;
+            --primary-dark: #00c27a;
+            --secondary: #7000ff;
+            --accent: #00d4ff;
+            --bg-dark: #030508;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text-main: #ffffff;
+            --text-muted: rgba(255, 255, 255, 0.6);
+            --gradient-main: linear-gradient(135deg, var(--primary), var(--accent));
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+            scroll-snap-type: y mandatory;
+        }
+        
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        
+        h1, h2, h3, h4, h5 {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        /* Background Animation */
+        .ambient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            background: radial-gradient(circle at 50% 50%, #0a1a15 0%, #030508 100%);
+            overflow: hidden;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .orb-1 { width: 500px; height: 500px; background: var(--primary); top: -150px; left: -150px; animation-delay: 0s; }
+        .orb-2 { width: 600px; height: 600px; background: var(--secondary); bottom: -150px; right: -150px; animation-delay: -5s; }
+        .orb-3 { width: 300px; height: 300px; background: var(--accent); top: 40%; left: 60%; animation-delay: -10s; }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+
+        /* Grid Overlay */
+        .grid-overlay {
+            position: fixed;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+            mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+        }
+
+        /* Slide Styles */
+        .slide {
+            min-height: 100vh;
+            width: 100vw;
+            scroll-snap-align: start;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 4rem 2rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Typography */
+        .gradient-text {
+            background: var(--gradient-main);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-title {
+            font-size: 5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .section-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            font-weight: 300;
+        }
+
+        /* Cards & Glassmorphism */
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2rem;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            height: 100%;
+        }
+
+        .glass-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Problem/Failure Slide */
+        .failure-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .failure-card {
+            border-left: 4px solid #ff4d4d;
+        }
+
+        .stat-big {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Founder Slide */
+        .founder-layout {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 3rem;
+        }
+
+        .founder-profile {
+            text-align: center;
+        }
+
+        .founder-img {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 4px solid var(--primary);
+            padding: 5px;
+            background: var(--bg-dark);
+            margin: 0 auto 1.5rem;
+        }
+        
+        .founder-img img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .badge-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .badge {
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 2rem;
+            border-left: 2px solid var(--glass-border);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -6px;
+            top: 5px;
+            width: 10px;
+            height: 10px;
+            background: var(--primary);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        /* Tech Stack Grid */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .tech-card {
+            text-align: center;
+            padding: 1.5rem;
+        }
+
+        /* Navigation */
+        .nav-dots {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            z-index: 100;
+        }
+
+        .nav-dot {
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-dot.active {
+            background: var(--primary);
+            box-shadow: 0 0 10px var(--primary);
+            transform: scale(1.2);
+        }
+
+        /* Animations */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .slide.active .fade-up {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.2s; }
+        .delay-3 { transition-delay: 0.3s; }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-title { font-size: 3.5rem; }
+            .founder-layout, .failure-grid, .tech-grid { grid-template-columns: 1fr; }
+            .slide { padding: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+    <div class="grid-overlay"></div>
+
+    <nav class="nav-dots">
+        <div class="nav-dot active" onclick="scrollToSlide(0)"></div>
+        <div class="nav-dot" onclick="scrollToSlide(1)"></div>
+        <div class="nav-dot" onclick="scrollToSlide(2)"></div>
+        <div class="nav-dot" onclick="scrollToSlide(3)"></div>
+        <div class="nav-dot" onclick="scrollToSlide(4)"></div>
+        <div class="nav-dot" onclick="scrollToSlide(5)"></div>
+        <div class="nav-dot" onclick="scrollToSlide(6)"></div>
+        <div class="nav-dot" onclick="scrollToSlide(7)"></div>
+        <div class="nav-dot" onclick="scrollToSlide(8)"></div>
+        <div class="nav-dot" onclick="scrollToSlide(9)"></div>
+        <div class="nav-dot" onclick="scrollToSlide(10)"></div>
+        <div class="nav-dot" onclick="scrollToSlide(11)"></div>
+        <div class="nav-dot" onclick="scrollToSlide(12)"></div>
+        <div class="nav-dot" onclick="scrollToSlide(13)"></div>
+        <div class="nav-dot" onclick="scrollToSlide(14)"></div>
+        <div class="nav-dot" onclick="scrollToSlide(15)"></div>
+    </nav>
+
+    <!-- Slide 1: Title -->
+    <section class="slide active" id="slide-1">
+        <style>
+            @keyframes floatMascot {
+                0%, 100% { transform: translateY(0px) rotate(-3deg); }
+                50% { transform: translateY(-15px) rotate(3deg); }
+            }
+            @keyframes pulse {
+                0%, 100% { opacity: 0.6; transform: scale(1); }
+                50% { opacity: 1; transform: scale(1.05); }
+            }
+            @keyframes shimmer {
+                0% { background-position: -200% center; }
+                100% { background-position: 200% center; }
+            }
+            @keyframes borderGlow {
+                0%, 100% { border-color: rgba(0, 255, 163, 0.3); box-shadow: 0 0 20px rgba(0, 255, 163, 0.1); }
+                50% { border-color: rgba(0, 255, 163, 0.6); box-shadow: 0 0 40px rgba(0, 255, 163, 0.2); }
+            }
+            .hero-mascot {
+                animation: floatMascot 4s ease-in-out infinite;
+                filter: drop-shadow(0 20px 40px rgba(0, 255, 163, 0.3));
+            }
+            .title-shimmer {
+                background: linear-gradient(90deg, #fff 0%, #00ffa3 25%, #fff 50%, #00d4ff 75%, #fff 100%);
+                background-size: 200% auto;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                animation: shimmer 4s linear infinite;
+            }
+            .tech-pill {
+                animation: borderGlow 3s ease-in-out infinite;
+            }
+            .hero-badge {
+                animation: pulse 2s ease-in-out infinite;
+            }
+        </style>
+        <div class="container" style="text-align: center; max-width: 1200px;">
+            <div class="fade-up">
+                <!-- Hackathon Badge -->
+                <div class="hero-badge" style="display: inline-flex; align-items: center; gap: 12px; padding: 10px 24px; background: linear-gradient(135deg, rgba(0, 255, 163, 0.15), rgba(0, 212, 255, 0.1)); border-radius: 50px; border: 1px solid rgba(0, 255, 163, 0.3); margin-bottom: 3rem; backdrop-filter: blur(10px);">
+                    <span style="width: 10px; height: 10px; background: var(--primary); border-radius: 50%; box-shadow: 0 0 15px var(--primary);"></span>
+                    <span style="color: var(--primary); font-weight: 700; font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase;">🌱 Sustainability Hackathon 2025</span>
+                </div>
+                
+                <!-- Hero Section with Mascot -->
+                <div style="display: flex; align-items: center; justify-content: center; gap: 2rem; margin-bottom: 2rem;">
+                    <div style="text-align: right; flex: 1;">
+                        <h1 class="title-shimmer" style="font-size: 5.5rem; font-weight: 800; line-height: 1; margin: 0;">Verd</h1>
+                    </div>
+                    <div style="position: relative;">
+                        <img src="../public/ecomon/gaiabloom.png" class="hero-mascot" style="width: 200px; height: 200px; object-fit: contain;">
+                        <div style="position: absolute; inset: -20px; border-radius: 50%; background: radial-gradient(circle, rgba(0,255,163,0.2) 0%, transparent 70%); z-index: -1;"></div>
+                    </div>
+                    <div style="text-align: left; flex: 1;">
+                        <h1 class="title-shimmer" style="font-size: 5.5rem; font-weight: 800; line-height: 1; margin: 0;">leaf</h1>
+                    </div>
+                </div>
+
+                <!-- Tagline -->
+                <div style="max-width: 800px; margin: 0 auto 3rem;">
+                    <p style="font-size: 1.6rem; font-weight: 300; color: var(--text-main); margin-bottom: 0.5rem;">
+                        The first <span style="background: linear-gradient(90deg, #00ffa3, #00d4ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700;">AI-Verified</span> Eco-Companion on Solana
+                    </p>
+                    <p style="font-size: 1.1rem; color: var(--text-muted);">
+                        Transform climate anxiety into verifiable, rewarding action
+                    </p>
+                </div>
+
+                <!-- Tech Stack Pills -->
+                <div style="display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap;">
+                    <div class="tech-pill" style="display: flex; align-items: center; gap: 12px; background: rgba(66, 133, 244, 0.1); padding: 16px 28px; border-radius: 16px; border: 1px solid rgba(66, 133, 244, 0.3);">
+                        <i data-lucide="brain-circuit" size="28" color="#4285F4"></i>
+                        <div style="text-align: left;">
+                            <p style="font-weight: 700; font-size: 1rem; margin: 0;">Gemini AI</p>
+                            <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0;">Vision Verification</p>
+                        </div>
+                    </div>
+                    <div class="tech-pill" style="display: flex; align-items: center; gap: 12px; background: rgba(0, 255, 163, 0.1); padding: 16px 28px; border-radius: 16px; border: 1px solid rgba(0, 255, 163, 0.3);">
+                        <i data-lucide="hexagon" size="28" color="#00FFA3"></i>
+                        <div style="text-align: left;">
+                            <p style="font-weight: 700; font-size: 1rem; margin: 0;">Solana</p>
+                            <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0;">Dynamic NFTs</p>
+                        </div>
+                    </div>
+                    <div class="tech-pill" style="display: flex; align-items: center; gap: 12px; background: rgba(0, 212, 255, 0.1); padding: 16px 28px; border-radius: 16px; border: 1px solid rgba(0, 212, 255, 0.3);">
+                        <i data-lucide="shield-check" size="28" color="#00D4FF"></i>
+                        <div style="text-align: left;">
+                            <p style="font-weight: 700; font-size: 1rem; margin: 0;">Verifiable</p>
+                            <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0;">On-Chain Proof</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Scroll Indicator -->
+                <div style="position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; opacity: 0.6;">
+                    <span style="font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase;">Scroll to explore</span>
+                    <i data-lucide="chevrons-down" size="24" color="var(--primary)" style="animation: pulse 2s infinite;"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 2: The Story (Maya) -->
+    <section class="slide" id="slide-2">
+        <style>
+            .story-card { transition: all 0.4s ease; }
+            .story-card:hover { transform: translateY(-5px); border-color: rgba(255, 77, 77, 0.5); }
+            .pain-point { position: relative; overflow: hidden; }
+            .pain-point::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, #ff4d4d, #ff8c00); }
+            .emoji-float { animation: bounce 2s ease-in-out infinite; }
+            @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        </style>
+        <div class="container" style="max-width: 1200px;">
+            <div class="fade-up" style="display: grid; grid-template-columns: 1fr 1.2fr; gap: 4rem; align-items: center;">
+                <!-- Left: User Persona -->
+                <div style="position: relative;">
+                    <div style="position: absolute; top: -30px; left: -30px; font-size: 8rem; opacity: 0.05; font-weight: 900;">?</div>
+                    <div style="background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(112, 0, 255, 0.05)); border-radius: 32px; padding: 3rem; border: 1px solid rgba(0, 212, 255, 0.2); position: relative;">
+                        <div style="position: absolute; top: -15px; left: 25px; background: linear-gradient(90deg, var(--accent), var(--secondary)); padding: 8px 20px; border-radius: 25px; font-weight: 700; font-size: 0.75rem; color: #fff; letter-spacing: 1px;">👤 USER PERSONA</div>
+                        <div style="width: 100px; height: 100px; background: linear-gradient(135deg, #00d4ff, #7000ff); border-radius: 50%; margin: 1rem auto 1.5rem; display: flex; align-items: center; justify-content: center;">
+                            <i data-lucide="user" size="48" color="#fff"></i>
+                        </div>
+                        <h2 style="font-size: 2.8rem; margin-bottom: 0.5rem; text-align: center;">Meet Maya</h2>
+                        <p style="color: var(--accent); font-size: 1.1rem; margin-bottom: 1.5rem; text-align: center; font-weight: 600;">24 • Software Engineer • Nature Lover</p>
+                        <p style="color: var(--text-muted); font-size: 1rem; line-height: 1.8; text-align: center;">
+                            She carries a reusable bottle. Separates her trash. Tries to buy sustainable brands.
+                        </p>
+                        <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 1.5rem;">
+                            <span style="background: rgba(255,255,255,0.1); padding: 8px 16px; border-radius: 20px; font-size: 0.85rem;">🌱 Eco-Conscious</span>
+                            <span style="background: rgba(255,255,255,0.1); padding: 8px 16px; border-radius: 20px; font-size: 0.85rem;">💻 Tech-Savvy</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Right: Pain Points -->
+                <div>
+                    <h3 style="font-size: 2.2rem; margin-bottom: 2rem;">But she faces <span style="background: linear-gradient(90deg, #ff4d4d, #ff8c00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800;">3 Walls</span></h3>
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                        <div class="glass-card story-card pain-point" style="padding: 1.5rem 1.5rem 1.5rem 2rem; border-left: none; display: flex; align-items: center; gap: 1.5rem;">
+                            <span class="emoji-float" style="font-size: 2.5rem;">🤷</span>
+                            <div>
+                                <p style="font-size: 1.2rem; font-weight: 700;">"Does this actually matter?"</p>
+                                <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 0.5rem;">Her actions feel invisible. Like a drop in the ocean.</p>
+                            </div>
+                        </div>
+                        <div class="glass-card story-card pain-point" style="padding: 1.5rem 1.5rem 1.5rem 2rem; border-left: none; display: flex; align-items: center; gap: 1.5rem;">
+                            <span class="emoji-float" style="font-size: 2.5rem; animation-delay: 0.3s;">🤔</span>
+                            <div>
+                                <p style="font-size: 1.2rem; font-weight: 700;">"Is this brand lying?"</p>
+                                <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 0.5rem;">She doesn't trust corporate sustainability claims.</p>
+                            </div>
+                        </div>
+                        <div class="glass-card story-card pain-point" style="padding: 1.5rem 1.5rem 1.5rem 2rem; border-left: none; display: flex; align-items: center; gap: 1.5rem;">
+                            <span class="emoji-float" style="font-size: 2.5rem; animation-delay: 0.6s;">😔</span>
+                            <div>
+                                <p style="font-size: 1.2rem; font-weight: 700;">"I feel alone."</p>
+                                <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 0.5rem;">None of her friends seem to care as much.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 3: The Problem (Why We Fail) -->
+    <section class="slide" id="slide-3">
+        <style>
+            .problem-card { position: relative; transition: all 0.4s ease; overflow: hidden; }
+            .problem-card:hover { transform: translateY(-8px) scale(1.02); }
+            .problem-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #ff4d4d, #ff8c00); }
+            .stat-badge { background: rgba(255, 77, 77, 0.2); color: #ff6b6b; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; display: inline-block; margin-top: 1rem; }
+        </style>
+        <div class="container" style="max-width: 1200px;">
+            <div class="section-header fade-up" style="text-align: center; margin-bottom: 4rem;">
+                <span style="background: rgba(255, 77, 77, 0.15); color: #ff6b6b; padding: 8px 20px; border-radius: 25px; font-size: 0.85rem; font-weight: 600; display: inline-block; margin-bottom: 1.5rem;">⚠️ THE PROBLEM</span>
+                <h2 class="section-title" style="font-size: 3rem;">Why Current Solutions <span style="background: linear-gradient(90deg, #ff4d4d, #ff8c00); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Fail</span></h2>
+                <p class="subtitle" style="max-width: 700px; margin: 1rem auto 0;">Good intentions rarely become sustained action. Here's the gap we're bridging.</p>
+            </div>
+
+            <div class="fade-up delay-2" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;">
+                <div class="glass-card problem-card" style="padding: 2.5rem; text-align: center;">
+                    <div style="width: 80px; height: 80px; background: rgba(255, 77, 77, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
+                        <i data-lucide="eye-off" size="36" color="#ff6b6b"></i>
+                    </div>
+                    <h3 style="font-size: 1.4rem; margin-bottom: 1rem;">Invisible Impact</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.7;">
+                        "I recycled today, but did it matter?" Without feedback, actions feel meaningless and abstract.
+                    </p>
+                    <span class="stat-badge">70% drop off in 2 weeks</span>
+                </div>
+
+                <div class="glass-card problem-card" style="padding: 2.5rem; text-align: center;">
+                    <div style="width: 80px; height: 80px; background: rgba(255, 77, 77, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
+                        <i data-lucide="shield-off" size="36" color="#ff6b6b"></i>
+                    </div>
+                    <h3 style="font-size: 1.4rem; margin-bottom: 1rem;">Trust Deficit</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.7;">
+                        Greenwashing everywhere. Users can't verify claims, and platforms don't verify actions.
+                    </p>
+                    <span class="stat-badge">68% distrust eco-claims</span>
+                </div>
+
+                <div class="glass-card problem-card" style="padding: 2.5rem; text-align: center;">
+                    <div style="width: 80px; height: 80px; background: rgba(255, 77, 77, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
+                        <i data-lucide="user-x" size="36" color="#ff6b6b"></i>
+                    </div>
+                    <h3 style="font-size: 1.4rem; margin-bottom: 1rem;">Isolation Trap</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.7;">
+                        Eco-anxiety is lonely. Acting solo feels futile. No shared progress or community.
+                    </p>
+                    <span class="stat-badge">62% feel eco-lonely</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 4: The Solution -->
+    <section class="slide" id="slide-4">
+        <style>
+            .solution-card { position: relative; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+            .solution-card:hover { transform: translateY(-12px); }
+            .solution-card.ai:hover { box-shadow: 0 20px 60px rgba(0, 255, 163, 0.2); }
+            .solution-card.nft:hover { box-shadow: 0 20px 60px rgba(112, 0, 255, 0.2); }
+            .solution-card.value:hover { box-shadow: 0 20px 60px rgba(0, 212, 255, 0.2); }
+            .solution-icon { transition: transform 0.3s ease; }
+            .solution-card:hover .solution-icon { transform: scale(1.1) rotate(5deg); }
+            .pillar-number { position: absolute; top: -15px; right: 20px; font-size: 4rem; font-weight: 900; opacity: 0.1; }
+        </style>
+        <div class="container" style="max-width: 1200px;">
+            <div class="section-header fade-up" style="text-align: center; margin-bottom: 4rem;">
+                <span style="background: rgba(0, 255, 163, 0.15); color: var(--primary); padding: 8px 20px; border-radius: 25px; font-size: 0.85rem; font-weight: 600; display: inline-block; margin-bottom: 1.5rem;">✨ THE SOLUTION</span>
+                <h2 class="section-title" style="font-size: 3.5rem;">Enter <span class="gradient-text">Verdleaf</span></h2>
+                <p class="subtitle" style="max-width: 600px; margin: 1rem auto 0;">Three pillars that turn eco-intentions into verified impact.</p>
+            </div>
+
+            <div class="fade-up delay-2" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;">
+                <div class="glass-card solution-card ai" style="border-color: var(--primary); padding: 2.5rem; position: relative; overflow: hidden;">
+                    <span class="pillar-number" style="color: var(--primary);">01</span>
+                    <div class="solution-icon" style="background: linear-gradient(135deg, rgba(0, 255, 163, 0.2), rgba(0, 255, 163, 0.05)); width: 80px; height: 80px; border-radius: 20px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
+                        <i data-lucide="scan-eye" size="36" color="var(--primary)"></i>
+                    </div>
+                    <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">AI Verification</h3>
+                    <p style="color: var(--text-muted); line-height: 1.7;">
+                        Gemini Vision analyzes your photos with <strong style="color: var(--primary);">95% accuracy</strong>. No cheating, no self-reporting.
+                    </p>
+                    <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1);">
+                        <span style="font-size: 0.8rem; color: var(--text-muted);">Powered by</span>
+                        <span style="font-size: 0.9rem; font-weight: 600; color: #4285F4;"> Google Gemini</span>
+                    </div>
+                </div>
+
+                <div class="glass-card solution-card nft" style="border-color: var(--secondary); padding: 2.5rem; position: relative; overflow: hidden; transform: translateY(-20px);">
+                    <span class="pillar-number" style="color: var(--secondary);">02</span>
+                    <div style="position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--secondary), var(--primary));"></div>
+                    <div class="solution-icon" style="background: linear-gradient(135deg, rgba(112, 0, 255, 0.2), rgba(112, 0, 255, 0.05)); width: 80px; height: 80px; border-radius: 20px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
+                        <i data-lucide="sparkles" size="36" color="var(--secondary)"></i>
+                    </div>
+                    <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Living NFTs</h3>
+                    <p style="color: var(--text-muted); line-height: 1.7;">
+                        Your EcoMon <strong style="color: var(--secondary);">evolves on-chain</strong>. Starts as a seed, grows into a guardian based on YOUR actions.
+                    </p>
+                    <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1);">
+                        <span style="font-size: 0.8rem; color: var(--text-muted);">Built on</span>
+                        <span style="font-size: 0.9rem; font-weight: 600; color: #00FFA3;"> Solana</span>
+                    </div>
+                </div>
+
+                <div class="glass-card solution-card value" style="border-color: var(--accent); padding: 2.5rem; position: relative; overflow: hidden;">
+                    <span class="pillar-number" style="color: var(--accent);">03</span>
+                    <div class="solution-icon" style="background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(0, 212, 255, 0.05)); width: 80px; height: 80px; border-radius: 20px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
+                        <i data-lucide="gift" size="36" color="var(--accent)"></i>
+                    </div>
+                    <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Real Rewards</h3>
+                    <p style="color: var(--text-muted); line-height: 1.7;">
+                        Earn EcoPoints to spend on <strong style="color: var(--accent);">verified sustainable goods</strong>. A real circular economy.
+                    </p>
+                    <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1);">
+                        <span style="font-size: 0.8rem; color: var(--text-muted);">Low fees via</span>
+                        <span style="font-size: 0.9rem; font-weight: 600; color: #38BDF8;"> Base L2</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 4b: The Journey (Visual) -->
+    <section class="slide" id="slide-4b">
+        <div class="container">
+            <div class="section-header fade-up" style="text-align: center; margin-bottom: 3rem;">
+                <h2 class="section-title">From <span class="gradient-text">Action</span> to <span class="gradient-text">Asset</span></h2>
+                <p class="subtitle" style="margin: 0 auto;">The user journey is simple, instant, and rewarding.</p>
+            </div>
+            
+            <div class="journey-grid fade-up delay-2" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;">
+                <!-- Step 1 -->
+                <div class="glass-card" style="padding: 0; overflow: hidden; position: relative; height: 450px; border: 0;">
+                    <img src="https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?q=80&w=800&auto=format&fit=crop" alt="Recycling" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;">
+                    <div style="position: absolute; inset: 0; background: linear-gradient(to top, #000 0%, transparent 60%);"></div>
+                    <div style="position: absolute; bottom: 0; left: 0; width: 100%; padding: 2rem;">
+                        <div style="background: var(--primary); color: #000; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; margin-bottom: 1rem; font-size: 1.2rem;">1</div>
+                        <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Snap Action</h3>
+                        <p style="font-size: 1rem; color: rgba(255,255,255,0.8);">Take a photo of your eco-friendly habit. No manual entry.</p>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="glass-card" style="padding: 0; overflow: hidden; position: relative; height: 450px; border: 0;">
+                    <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=800&auto=format&fit=crop" alt="AI Analysis" style="width: 100%; height: 100%; object-fit: cover;">
+                    <div style="position: absolute; inset: 0; background: linear-gradient(to top, #000 0%, transparent 60%);"></div>
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                        <i data-lucide="scan-line" size="80" color="#fff" style="filter: drop-shadow(0 0 20px var(--accent)); opacity: 0.8;"></i>
+                    </div>
+                    <div style="position: absolute; bottom: 0; left: 0; width: 100%; padding: 2rem;">
+                        <div style="background: var(--accent); color: #000; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; margin-bottom: 1rem; font-size: 1.2rem;">2</div>
+                        <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">AI Verify</h3>
+                        <p style="font-size: 1rem; color: rgba(255,255,255,0.8);">Gemini Vision analyzes the image in real-time to validate impact.</p>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="glass-card" style="padding: 0; overflow: hidden; position: relative; height: 450px; border: 0;">
+                    <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=800&auto=format&fit=crop" alt="Growth" style="width: 100%; height: 100%; object-fit: cover;">
+                    <div style="position: absolute; inset: 0; background: linear-gradient(to top, #000 0%, transparent 60%);"></div>
+                    <div style="position: absolute; bottom: 0; left: 0; width: 100%; padding: 2rem;">
+                        <div style="background: var(--secondary); color: #fff; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; margin-bottom: 1rem; font-size: 1.2rem;">3</div>
+                        <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Evolve & Earn</h3>
+                        <p style="font-size: 1rem; color: rgba(255,255,255,0.8);">Your EcoMon grows, and you earn tokens for the marketplace.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 4c: The Collection (Visual) -->
+    <section class="slide" id="slide-4c">
+        <style>
+            .evo-card { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position: relative; }
+            .evo-card:hover { transform: translateY(-10px) scale(1.05); z-index: 10; }
+            .evo-card:hover img { transform: scale(1.1); }
+            .evo-card img { transition: transform 0.4s ease; }
+            .evo-arrow { color: var(--primary); opacity: 0.4; }
+            .evo-glow { position: absolute; inset: -5px; border-radius: 24px; opacity: 0; transition: opacity 0.3s; }
+            .evo-card:hover .evo-glow { opacity: 1; }
+            .stage-badge { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.7); padding: 4px 10px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; }
+        </style>
+        <div class="container" style="max-width: 1300px;">
+            <div class="section-header fade-up" style="text-align: center; margin-bottom: 3rem;">
+                <span style="background: rgba(112, 0, 255, 0.15); color: var(--secondary); padding: 8px 20px; border-radius: 25px; font-size: 0.85rem; font-weight: 600; display: inline-block; margin-bottom: 1.5rem;">🌱 DYNAMIC NFTs</span>
+                <h2 class="section-title" style="font-size: 3rem;">The <span class="gradient-text">Evolution</span> Journey</h2>
+                <p class="subtitle" style="max-width: 600px; margin: 1rem auto 0;">Your EcoMon transforms as you take real-world sustainable actions.</p>
+            </div>
+
+            <div class="fade-up delay-2" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                <!-- Stage 1 -->
+                <div class="glass-card evo-card" style="padding: 1.5rem; text-align: center; width: 180px; flex-shrink: 0;">
+                    <div class="evo-glow" style="background: radial-gradient(circle, rgba(0,255,163,0.3) 0%, transparent 70%);"></div>
+                    <div style="height: 140px; border-radius: 16px; overflow: hidden; margin-bottom: 1rem; position: relative; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, rgba(0,255,163,0.1), transparent);">
+                        <span class="stage-badge">Stage 1</span>
+                        <img src="../public/ecomon/sproutling.png" style="width: 90%; height: 90%; object-fit: contain;">
+                    </div>
+                    <h3 style="color: var(--primary); font-size: 1.1rem; font-weight: 700;">Sproutling</h3>
+                    <p style="color: var(--text-muted); font-size: 0.8rem; margin-top: 0.3rem;">Lv 1-5</p>
+                    <div style="margin-top: 0.8rem; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px;"><div style="width: 20%; height: 100%; background: var(--primary); border-radius: 2px;"></div></div>
+                </div>
+                <i data-lucide="chevron-right" class="evo-arrow" size="24"></i>
+
+                <!-- Stage 2 -->
+                <div class="glass-card evo-card" style="padding: 1.5rem; text-align: center; width: 180px; flex-shrink: 0;">
+                    <div class="evo-glow" style="background: radial-gradient(circle, rgba(0,255,163,0.3) 0%, transparent 70%);"></div>
+                    <div style="height: 140px; border-radius: 16px; overflow: hidden; margin-bottom: 1rem; position: relative; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, rgba(0,255,163,0.1), transparent);">
+                        <span class="stage-badge">Stage 2</span>
+                        <img src="../public/ecomon/bloomkin.png" style="width: 90%; height: 90%; object-fit: contain;">
+                    </div>
+                    <h3 style="color: var(--primary); font-size: 1.1rem; font-weight: 700;">Bloomkin</h3>
+                    <p style="color: var(--text-muted); font-size: 0.8rem; margin-top: 0.3rem;">Lv 6-15</p>
+                    <div style="margin-top: 0.8rem; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px;"><div style="width: 40%; height: 100%; background: var(--primary); border-radius: 2px;"></div></div>
+                </div>
+                <i data-lucide="chevron-right" class="evo-arrow" size="24"></i>
+
+                <!-- Stage 3 - Featured -->
+                <div class="glass-card evo-card" style="padding: 1.5rem; text-align: center; width: 200px; flex-shrink: 0; border-color: var(--primary); transform: scale(1.1);">
+                    <div class="evo-glow" style="background: radial-gradient(circle, rgba(0,255,163,0.4) 0%, transparent 70%);"></div>
+                    <div style="height: 150px; border-radius: 16px; overflow: hidden; margin-bottom: 1rem; position: relative; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, rgba(0,255,163,0.15), transparent);">
+                        <span class="stage-badge" style="background: var(--primary); color: #000;">⭐ Popular</span>
+                        <img src="../public/ecomon/florazen.png" style="width: 95%; height: 95%; object-fit: contain;">
+                    </div>
+                    <h3 style="color: var(--primary); font-size: 1.2rem; font-weight: 700;">Florazen</h3>
+                    <p style="color: var(--text-muted); font-size: 0.8rem; margin-top: 0.3rem;">Lv 16-30</p>
+                    <div style="margin-top: 0.8rem; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px;"><div style="width: 60%; height: 100%; background: var(--primary); border-radius: 2px;"></div></div>
+                </div>
+                <i data-lucide="chevron-right" class="evo-arrow" size="24"></i>
+
+                <!-- Stage 4 -->
+                <div class="glass-card evo-card" style="padding: 1.5rem; text-align: center; width: 180px; flex-shrink: 0;">
+                    <div class="evo-glow" style="background: radial-gradient(circle, rgba(112,0,255,0.3) 0%, transparent 70%);"></div>
+                    <div style="height: 140px; border-radius: 16px; overflow: hidden; margin-bottom: 1rem; position: relative; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, rgba(112,0,255,0.1), transparent);">
+                        <span class="stage-badge">Stage 4</span>
+                        <img src="../public/ecomon/terravine.png" style="width: 90%; height: 90%; object-fit: contain;">
+                    </div>
+                    <h3 style="color: var(--secondary); font-size: 1.1rem; font-weight: 700;">Terravine</h3>
+                    <p style="color: var(--text-muted); font-size: 0.8rem; margin-top: 0.3rem;">Lv 31-50</p>
+                    <div style="margin-top: 0.8rem; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px;"><div style="width: 80%; height: 100%; background: var(--secondary); border-radius: 2px;"></div></div>
+                </div>
+                <i data-lucide="chevron-right" class="evo-arrow" size="24"></i>
+
+                <!-- Stage 5 -->
+                <div class="glass-card evo-card" style="padding: 1.5rem; text-align: center; width: 180px; flex-shrink: 0; border-color: var(--secondary);">
+                    <div class="evo-glow" style="background: radial-gradient(circle, rgba(112,0,255,0.4) 0%, transparent 70%);"></div>
+                    <div style="height: 140px; border-radius: 16px; overflow: hidden; margin-bottom: 1rem; position: relative; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, rgba(112,0,255,0.15), transparent);">
+                        <span class="stage-badge" style="background: linear-gradient(90deg, var(--secondary), var(--primary)); color: #fff;">🏆 MAX</span>
+                        <img src="../public/ecomon/gaiabloom.png" style="width: 90%; height: 90%; object-fit: contain;">
+                    </div>
+                    <h3 style="background: linear-gradient(90deg, var(--secondary), var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 1.1rem; font-weight: 700;">Gaiabloom</h3>
+                    <p style="color: var(--text-muted); font-size: 0.8rem; margin-top: 0.3rem;">Lv 50+</p>
+                    <div style="margin-top: 0.8rem; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px;"><div style="width: 100%; height: 100%; background: linear-gradient(90deg, var(--secondary), var(--primary)); border-radius: 2px;"></div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 4e: The NFT Gallery -->
+    <section class="slide" id="slide-4e">
+        <div class="container">
+            <div class="section-header fade-up" style="text-align: center; margin-bottom: 3rem;">
+                <h2 class="section-title">The <span class="gradient-text">NFT Gallery</span></h2>
+                <p class="subtitle" style="margin: 0 auto;">Collect unique badges as you progress on your journey.</p>
+            </div>
+
+            <div class="journey-grid fade-up delay-2" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem;">
+                <!-- NFT 1 -->
+                <div class="glass-card" style="padding: 1rem; text-align: center;">
+                    <div style="height: 150px; border-radius: 16px; overflow: hidden; margin-bottom: 1rem; position: relative; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05);">
+                        <img src="../public/nfts/first-steps.png" style="width: 80%; height: 80%; object-fit: contain;">
+                    </div>
+                    <h3 style="color: var(--primary); font-size: 1rem;">First Steps</h3>
+                    <p style="color: var(--text-muted); font-size: 0.8rem; margin-top: 0.5rem;">Beginner</p>
+                </div>
+
+                <!-- NFT 2 -->
+                <div class="glass-card" style="padding: 1rem; text-align: center;">
+                    <div style="height: 150px; border-radius: 16px; overflow: hidden; margin-bottom: 1rem; position: relative; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05);">
+                        <img src="../public/nfts/eco-warrior.png" style="width: 80%; height: 80%; object-fit: contain;">
+                    </div>
+                    <h3 style="color: var(--primary); font-size: 1rem;">Eco Warrior</h3>
+                    <p style="color: var(--text-muted); font-size: 0.8rem; margin-top: 0.5rem;">Intermediate</p>
+                </div>
+
+                <!-- NFT 3 -->
+                <div class="glass-card" style="padding: 1rem; text-align: center; border-color: var(--primary);">
+                    <div style="height: 150px; border-radius: 16px; overflow: hidden; margin-bottom: 1rem; position: relative; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05);">
+                        <img src="../public/nfts/carbon-crusher.png" style="width: 80%; height: 80%; object-fit: contain;">
+                    </div>
+                    <h3 style="color: var(--primary); font-size: 1rem;">Carbon Crusher</h3>
+                    <p style="color: var(--text-muted); font-size: 0.8rem; margin-top: 0.5rem;">Advanced</p>
+                </div>
+
+                <!-- NFT 4 -->
+                <div class="glass-card" style="padding: 1rem; text-align: center;">
+                    <div style="height: 150px; border-radius: 16px; overflow: hidden; margin-bottom: 1rem; position: relative; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05);">
+                        <img src="../public/nfts/green-streak.png" style="width: 80%; height: 80%; object-fit: contain;">
+                    </div>
+                    <h3 style="color: var(--primary); font-size: 1rem;">Green Guardian</h3>
+                    <p style="color: var(--text-muted); font-size: 0.8rem; margin-top: 0.5rem;">Expert</p>
+                </div>
+
+                <!-- NFT 5 -->
+                <div class="glass-card" style="padding: 1rem; text-align: center;">
+                    <div style="height: 150px; border-radius: 16px; overflow: hidden; margin-bottom: 1rem; position: relative; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05);">
+                        <img src="../public/nfts/nature-guardian.png" style="width: 80%; height: 80%; object-fit: contain;">
+                    </div>
+                    <h3 style="color: var(--primary); font-size: 1rem;">Legendary Leaf</h3>
+                    <p style="color: var(--text-muted); font-size: 0.8rem; margin-top: 0.5rem;">Master</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 5: Founder Profile -->
+    <section class="slide" id="slide-5">
+        <div class="container">
+            <div class="section-header fade-up">
+                <h2 class="section-title">The <span class="gradient-text">Architect</span></h2>
+            </div>
+            
+            <div class="founder-layout fade-up delay-1">
+                <!-- Left Column: Profile -->
+                <div class="glass-card founder-profile">
+                    <div class="founder-img">
+                        <img src="https://ui-avatars.com/api/?name=Debasish+Tripathy&background=0D8ABC&color=fff&size=256" alt="Debasish Tripathy">
+                    </div>
+                    <h3 style="font-size: 2rem; line-height: 1.2;">Debasish Tripathy</h3>
+                    <p style="color: var(--primary); font-weight: 600; margin-bottom: 0.5rem;">Founder & Lead Engineer</p>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1.5rem;">
+                        Specializing in AI Security & Scalable Systems
+                    </p>
+                    
+                    <div style="text-align: left; margin-top: 2rem;">
+                        <div style="margin-bottom: 1rem; display: flex; align-items: center; gap: 10px;">
+                            <i data-lucide="graduation-cap" size="18" color="var(--accent)"></i>
+                            <span style="font-size: 0.9rem;">B.Tech CSE (Cybersecurity), MIT Bengaluru</span>
+                        </div>
+                        <div style="margin-bottom: 1rem; display: flex; align-items: center; gap: 10px;">
+                            <i data-lucide="award" size="18" color="var(--accent)"></i>
+                            <span style="font-size: 0.9rem;">5 Patents Granted/Pending</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <i data-lucide="globe" size="18" color="var(--accent)"></i>
+                            <span style="font-size: 0.9rem;">President, Sustainable Dev Club</span>
+                        </div>
+                    </div>
+
+                    <div class="badge-container" style="margin-top: 2rem;">
+                        <span class="badge">PyTorch</span>
+                        <span class="badge">Solana</span>
+                        <span class="badge">AWS</span>
+                        <span class="badge">Cybersecurity</span>
+                        <span class="badge">GenAI</span>
+                    </div>
+                </div>
+
+                <!-- Right Column: Experience & Achievements -->
+                <div class="glass-card" style="overflow-y: auto; max-height: 600px;">
+                    <h3 style="margin-bottom: 2rem; color: var(--accent);">Proven Track Record</h3>
+
+                    <div class="timeline-item">
+                        <h4 style="font-size: 1.2rem;">Founder & CEO @ AI Food Pantry</h4>
+                        <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 0.5rem;">
+                            • Architected scalable cloud infra (99.9% uptime) for 1.2k+ users.<br>
+                            • Developed proprietary ingredient recognition model (95% accuracy).<br>
+                            • Secured cloud credits and led product from zero to launch.
+                        </p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h4 style="font-size: 1.2rem;">IT Security Risk Intern @ Philips</h4>
+                        <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 0.5rem;">
+                            • Reduced compliance timelines by 74% via automation.<br>
+                            • Authored foundational AI security protocols for the organization.
+                        </p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h4 style="font-size: 1.2rem;">Machine Learning Engineer @ Genie AI</h4>
+                        <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 0.5rem;">
+                            • Developed AI Digital Twin achieving 92% user satisfaction.<br>
+                            • Engineered Fire Safety CV system with 87.6% accuracy.
+                        </p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h4 style="font-size: 1.2rem;">Trusted Tester @ Google Labs</h4>
+                        <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 0.5rem;">
+                            • Identified critical prompt injection vulnerability in Imagen 3.<br>
+                            • Reported bugs compromising user identity integrity.
+                        </p>
+                    </div>
+
+                    <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--glass-border);">
+                        <h4 style="color: var(--primary); margin-bottom: 1rem;">Key Achievements</h4>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px;">
+                                🏆 <strong>Winner</strong><br>Microsoft AI Odyssey India
+                            </div>
+                            <div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px;">
+                                🥇 <strong>1st Prize</strong><br>Schneider Electric CTF
+                            </div>
+                            <div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px;">
+                                🥈 <strong>2nd Prize</strong><br>PwC Firecrest Hackathon
+                            </div>
+                            <div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px;">
+                                📜 <strong>Patent</strong><br>Vastumeter (Granted)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 6: Tech Stack & Architecture -->
+    <section class="slide" id="slide-6">
+        <div class="container">
+            <div class="section-header fade-up" style="text-align: center; margin-bottom: 3rem;">
+                <h2 class="section-title">System <span class="gradient-text">Architecture</span></h2>
+                <p class="subtitle" style="margin: 0 auto;">A hybrid Web3 architecture powered by Next.js and Solana.</p>
+            </div>
+
+            <!-- Architecture Diagram -->
+            <div class="fade-up delay-2" style="display: flex; justify-content: center; align-items: center; gap: 2rem; margin-bottom: 3rem;">
+                
+                <!-- Client -->
+                <div style="text-align: center;">
+                    <div class="glass-card" style="padding: 1.5rem; border-color: var(--primary);">
+                        <i data-lucide="smartphone" size="32" color="#fff"></i>
+                        <h4 style="margin-top: 10px;">Client</h4>
+                        <p style="font-size: 0.8rem; color: var(--text-muted);">Next.js 14<br>PWA / Mobile</p>
+                    </div>
+                </div>
+
+                <i data-lucide="arrow-right" color="var(--text-muted)"></i>
+
+                <!-- Backend -->
+                <div style="text-align: center;">
+                    <div class="glass-card" style="padding: 1.5rem; border-color: var(--accent);">
+                        <i data-lucide="server" size="32" color="#fff"></i>
+                        <h4 style="margin-top: 10px;">API Layer</h4>
+                        <p style="font-size: 0.8rem; color: var(--text-muted);">Node.js<br>tRPC</p>
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                    <i data-lucide="arrow-up-right" color="var(--text-muted)"></i>
+                    <i data-lucide="arrow-down-right" color="var(--text-muted)"></i>
+                </div>
+
+                <!-- Services -->
+                <div style="display: flex; flex-direction: column; gap: 2rem;">
+                    <div class="glass-card" style="padding: 1rem; border-color: #4285F4; display: flex; align-items: center; gap: 1rem;">
+                        <i data-lucide="brain-circuit" color="#4285F4"></i>
+                        <div style="text-align: left;">
+                            <h4 style="font-size: 0.9rem;">AI Engine</h4>
+                            <p style="font-size: 0.7rem; color: var(--text-muted);">Google Gemini Vision<br>Image Analysis</p>
+                        </div>
+                    </div>
+                    <div class="glass-card" style="padding: 1rem; border-color: #00FFA3; display: flex; align-items: center; gap: 1rem;">
+                        <i data-lucide="blocks" color="#00FFA3"></i>
+                        <div style="text-align: left;">
+                            <h4 style="font-size: 0.9rem;">Blockchain</h4>
+                            <p style="font-size: 0.7rem; color: var(--text-muted);">Solana / Metaplex<br>Compressed NFTs</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tech Grid -->
+            <div class="tech-grid fade-up delay-3">
+                <div class="glass-card tech-card">
+                    <h4 style="color: var(--primary);">Frontend</h4>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 0.5rem;">
+                        Next.js 14, Tailwind CSS, Framer Motion, Lucide Icons
+                    </p>
+                </div>
+                <div class="glass-card tech-card">
+                    <h4 style="color: var(--accent);">Backend & DB</h4>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 0.5rem;">
+                        Prisma ORM, PostgreSQL (Supabase), NextAuth.js
+                    </p>
+                </div>
+                <div class="glass-card tech-card">
+                    <h4 style="color: #4285F4;">AI Models</h4>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 0.5rem;">
+                        Gemini Pro Vision (Image Rec), OpenAI Embeddings (Search)
+                    </p>
+                </div>
+                <div class="glass-card tech-card">
+                    <h4 style="color: #00FFA3;">Web3</h4>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 0.5rem;">
+                        Solana Web3.js, Metaplex Umi, Phantom Wallet Adapter
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 6b: Business Model & Impact -->
+    <section class="slide" id="slide-6b">
+        <div class="container">
+            <div class="section-header fade-up" style="text-align: center; margin-bottom: 3rem;">
+                <h2 class="section-title">Sustainability <span class="gradient-text">& Scale</span></h2>
+                <p class="subtitle" style="margin: 0 auto;">A robust business model driving real-world impact.</p>
+            </div>
+
+            <div class="fade-up delay-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;">
+                
+                <!-- Revenue Model -->
+                <div class="glass-card">
+                    <h3 style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px;">
+                        <i data-lucide="trending-up" color="var(--primary)"></i> Revenue Streams
+                    </h3>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                        <div style="display: flex; gap: 15px;">
+                            <div style="background: rgba(255,255,255,0.05); width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                <span style="font-weight: bold; color: var(--accent);">01</span>
+                            </div>
+                            <div>
+                                <h4 style="font-size: 1.1rem;">Marketplace Fees</h4>
+                                <p style="font-size: 0.9rem; color: var(--text-muted);">2.5% transaction fee on all Eco-Product purchases and NFT trades.</p>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 15px;">
+                            <div style="background: rgba(255,255,255,0.05); width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                <span style="font-weight: bold; color: var(--accent);">02</span>
+                            </div>
+                            <div>
+                                <h4 style="font-size: 1.1rem;">Corporate Partnerships</h4>
+                                <p style="font-size: 0.9rem; color: var(--text-muted);">B2B "Green Challenges" for employee engagement and CSR reporting.</p>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 15px;">
+                            <div style="background: rgba(255,255,255,0.05); width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                <span style="font-weight: bold; color: var(--accent);">03</span>
+                            </div>
+                            <div>
+                                <h4 style="font-size: 1.1rem;">Premium Subscriptions</h4>
+                                <p style="font-size: 0.9rem; color: var(--text-muted);">Advanced analytics and exclusive Guardian skins for power users.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Impact Goals -->
+                <div class="glass-card" style="border-color: var(--secondary);">
+                    <h3 style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px;">
+                        <i data-lucide="globe-2" color="var(--secondary)"></i> 2026 Impact Goals
+                    </h3>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                        <div style="background: rgba(112, 0, 255, 0.1); padding: 1.5rem; border-radius: 16px; text-align: center;">
+                            <div style="font-size: 2.5rem; font-weight: 800; color: var(--secondary);">1M+</div>
+                            <div style="font-size: 0.9rem; color: #fff;">Actions Verified</div>
+                        </div>
+                        <div style="background: rgba(0, 255, 163, 0.1); padding: 1.5rem; border-radius: 16px; text-align: center;">
+                            <div style="font-size: 2.5rem; font-weight: 800; color: var(--primary);">50k</div>
+                            <div style="font-size: 0.9rem; color: #fff;">Trees Planted</div>
+                        </div>
+                        <div style="background: rgba(0, 212, 255, 0.1); padding: 1.5rem; border-radius: 16px; text-align: center;">
+                            <div style="font-size: 2.5rem; font-weight: 800; color: var(--accent);">100t</div>
+                            <div style="font-size: 0.9rem; color: #fff;">CO2 Offset</div>
+                        </div>
+                        <div style="background: rgba(255, 255, 255, 0.05); padding: 1.5rem; border-radius: 16px; text-align: center;">
+                            <div style="font-size: 2.5rem; font-weight: 800; color: #fff;">$500k</div>
+                            <div style="font-size: 0.9rem; color: #fff;">Eco-Sales Generated</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 6c: Market Fit -->
+    <section class="slide" id="slide-6c">
+        <div class="container">
+            <div class="section-header fade-up" style="text-align: center; margin-bottom: 3rem;">
+                <h2 class="section-title">Market <span class="gradient-text">Fit</span></h2>
+                <p class="subtitle" style="margin: 0 auto;">Targeting the intersection of Eco-Consciousness and Digital Ownership.</p>
+            </div>
+
+            <div class="fade-up delay-2" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2rem;">
+                <div class="glass-card" style="text-align: center;">
+                    <div style="background: rgba(255,255,255,0.05); width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 1.5rem; display: flex; align-items: center; justify-content: center;">
+                        <i data-lucide="users" size="32" color="#fff"></i>
+                    </div>
+                    <h3>Who?</h3>
+                    <p style="color: var(--primary); font-weight: bold; margin-bottom: 1rem;">Gen Z & Millennials</p>
+                    <p style="font-size: 0.9rem; color: var(--text-muted);">
+                        73% are willing to pay more for sustainable products. They are digital natives who value social signaling.
+                    </p>
+                </div>
+
+                <div class="glass-card" style="text-align: center;">
+                    <div style="background: rgba(255,255,255,0.05); width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 1.5rem; display: flex; align-items: center; justify-content: center;">
+                        <i data-lucide="heart" size="32" color="#ff4d4d"></i>
+                    </div>
+                    <h3>Why Love It?</h3>
+                    <p style="color: var(--accent); font-weight: bold; margin-bottom: 1rem;">Gamification & Rewards</p>
+                    <p style="font-size: 0.9rem; color: var(--text-muted);">
+                        It turns a "chore" (recycling) into a dopamine hit. The "Tamagotchi effect" creates emotional attachment.
+                    </p>
+                </div>
+
+                <div class="glass-card" style="text-align: center;">
+                    <div style="background: rgba(255,255,255,0.05); width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 1.5rem; display: flex; align-items: center; justify-content: center;">
+                        <i data-lucide="trending-up" size="32" color="#00FFA3"></i>
+                    </div>
+                    <h3>Market Size</h3>
+                    <p style="color: var(--secondary); font-weight: bold; margin-bottom: 1rem;">$36.6 Billion</p>
+                    <p style="font-size: 0.9rem; color: var(--text-muted);">
+                        Global Green Technology & Sustainability Market by 2027. We are positioning early in the Web3 niche.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 6d: Achievements & Results -->
+    <section class="slide" id="slide-6d">
+        <div class="container">
+            <div class="section-header fade-up" style="text-align: center; margin-bottom: 3rem;">
+                <h2 class="section-title">Proven <span class="gradient-text">Results</span></h2>
+                <p class="subtitle" style="margin: 0 auto;">Metrics from our beta testing and technical benchmarks.</p>
+            </div>
+
+            <div class="fade-up delay-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                <!-- Metric 1 -->
+                <div class="glass-card" style="display: flex; align-items: center; gap: 1.5rem;">
+                    <div style="background: rgba(0, 255, 163, 0.1); padding: 1.5rem; border-radius: 12px;">
+                        <i data-lucide="check-circle-2" size="32" color="#00FFA3"></i>
+                    </div>
+                    <div>
+                        <div style="font-size: 2.5rem; font-weight: 800; color: #fff;">95%</div>
+                        <div style="color: var(--text-muted);">AI Verification Accuracy</div>
+                        <div style="font-size: 0.8rem; color: rgba(255,255,255,0.4);">Tested on 500+ waste samples</div>
+                    </div>
+                </div>
+
+                <!-- Metric 2 -->
+                <div class="glass-card" style="display: flex; align-items: center; gap: 1.5rem;">
+                    <div style="background: rgba(56, 189, 248, 0.1); padding: 1.5rem; border-radius: 12px;">
+                        <i data-lucide="zap" size="32" color="#38BDF8"></i>
+                    </div>
+                    <div>
+                        <div style="font-size: 2.5rem; font-weight: 800; color: #fff;">&lt; 2s</div>
+                        <div style="color: var(--text-muted);">Verification Latency</div>
+                        <div style="font-size: 0.8rem; color: rgba(255,255,255,0.4);">Real-time feedback loop</div>
+                    </div>
+                </div>
+
+                <!-- Metric 3 -->
+                <div class="glass-card" style="display: flex; align-items: center; gap: 1.5rem;">
+                    <div style="background: rgba(112, 0, 255, 0.1); padding: 1.5rem; border-radius: 12px;">
+                        <i data-lucide="coins" size="32" color="#7000ff"></i>
+                    </div>
+                    <div>
+                        <div style="font-size: 2.5rem; font-weight: 800; color: #fff;">$0.001</div>
+                        <div style="color: var(--text-muted);">Cost per Mint</div>
+                        <div style="font-size: 0.8rem; color: rgba(255,255,255,0.4);">Using Solana Compressed NFTs</div>
+                    </div>
+                </div>
+
+                <!-- Metric 4 -->
+                <div class="glass-card" style="display: flex; align-items: center; gap: 1.5rem;">
+                    <div style="background: rgba(255, 77, 77, 0.1); padding: 1.5rem; border-radius: 12px;">
+                        <i data-lucide="users" size="32" color="#ff4d4d"></i>
+                    </div>
+                    <div>
+                        <div style="font-size: 2.5rem; font-weight: 800; color: #fff;">40%</div>
+                        <div style="color: var(--text-muted);">Retention Rate (Day 30)</div>
+                        <div style="font-size: 0.8rem; color: rgba(255,255,255,0.4);">vs Industry Avg of 15%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 7: Roadmap & Future Scope -->
+    <section class="slide" id="slide-7">
+        <div class="container">
+            <div class="section-header fade-up">
+                <h2 class="section-title">Future <span class="gradient-text">Scope</span></h2>
+                <p class="subtitle">Our vision for scaling impact beyond the hackathon.</p>
+            </div>
+
+            <div class="failure-grid fade-up delay-2">
+                <div class="glass-card">
+                    <span style="font-size: 3rem; font-weight: 800; color: rgba(255,255,255,0.1);">01</span>
+                    <h3 style="color: var(--primary);">Phase 1: MVP (Now)</h3>
+                    <ul style="margin-top: 1rem; padding-left: 1.2rem; color: var(--text-muted);">
+                        <li>Core AI Verification (Gemini)</li>
+                        <li>Basic NFT Evolution (Solana)</li>
+                        <li>User Dashboard & Leaderboard</li>
+                    </ul>
+                </div>
+                <div class="glass-card">
+                    <span style="font-size: 3rem; font-weight: 800; color: rgba(255,255,255,0.1);">02</span>
+                    <h3 style="color: var(--accent);">Phase 2: Scale (Q3 2025)</h3>
+                    <ul style="margin-top: 1rem; padding-left: 1.2rem; color: var(--text-muted);">
+                        <li><strong>Marketplace Launch:</strong> Trade Eco-Assets.</li>
+                        <li><strong>Corporate API:</strong> B2B Integration.</li>
+                        <li><strong>Mobile App:</strong> React Native Launch.</li>
+                    </ul>
+                </div>
+                <div class="glass-card">
+                    <span style="font-size: 3rem; font-weight: 800; color: rgba(255,255,255,0.1);">03</span>
+                    <h3 style="color: var(--secondary);">Phase 3: Vision (2026)</h3>
+                    <ul style="margin-top: 1rem; padding-left: 1.2rem; color: var(--text-muted);">
+                        <li><strong>DAO Governance:</strong> Community voting.</li>
+                        <li><strong>Carbon Credits:</strong> Tokenize offsets.</li>
+                        <li><strong>Global Partnerships:</strong> UN SDGs alignment.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 7b: Challenges Faced -->
+    <section class="slide" id="slide-7b">
+        <div class="container">
+            <div class="section-header fade-up" style="text-align: center; margin-bottom: 3rem;">
+                <h2 class="section-title">The <span class="gradient-text">Grind</span></h2>
+                <p class="subtitle" style="margin: 0 auto;">Challenges we overcame to build Verdleaf.</p>
+            </div>
+
+            <div class="fade-up delay-2" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2rem;">
+                <div class="glass-card" style="border-top: 4px solid #ff4d4d;">
+                    <h3 style="margin-bottom: 1rem;">AI Hallucinations</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">
+                        <strong>Problem:</strong> Gemini sometimes identified non-recyclable items as recyclable.
+                    </p>
+                    <p style="font-size: 0.9rem; color: #fff;">
+                        <strong>Solution:</strong> Implemented "Few-Shot Prompting" with specific negative examples to improve accuracy by 30%.
+                    </p>
+                </div>
+
+                <div class="glass-card" style="border-top: 4px solid #F59E0B;">
+                    <h3 style="margin-bottom: 1rem;">Gas Fees</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">
+                        <strong>Problem:</strong> Minting NFTs for every user action was too expensive and slow.
+                    </p>
+                    <p style="font-size: 0.9rem; color: #fff;">
+                        <strong>Solution:</strong> Switched to Solana Compressed NFTs (cNFTs) to reduce cost to near-zero ($0.000005).
+                    </p>
+                </div>
+
+                <div class="glass-card" style="border-top: 4px solid #38BDF8;">
+                    <h3 style="margin-bottom: 1rem;">User Retention</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">
+                        <strong>Problem:</strong> Users might get bored after the initial novelty wears off.
+                    </p>
+                    <p style="font-size: 0.9rem; color: #fff;">
+                        <strong>Solution:</strong> Added "Streak Mechanics" and "Rare Evolution Paths" to incentivize daily logins.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 8: CTA -->
+    <section class="slide" id="slide-8">
+        <style>
+            .cta-btn { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden; }
+            .cta-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(0, 255, 163, 0.3); }
+            .cta-btn-secondary:hover { box-shadow: 0 15px 40px rgba(255, 255, 255, 0.1); }
+            .cta-btn::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); transition: left 0.5s; }
+            .cta-btn:hover::before { left: 100%; }
+            .final-mascot { animation: floatMascot 4s ease-in-out infinite; filter: drop-shadow(0 20px 40px rgba(0, 255, 163, 0.4)); }
+        </style>
+        <div class="container" style="text-align: center; max-width: 900px;">
+            <div class="fade-up">
+                <!-- Mascot -->
+                <div style="margin-bottom: 2rem;">
+                    <img src="../public/ecomon/gaiabloom.png" class="final-mascot" style="width: 150px; height: 150px; object-fit: contain;">
+                </div>
+
+                <h2 style="font-size: 3.5rem; font-weight: 800; line-height: 1.2; margin-bottom: 1.5rem;">Let's Build a <br><span class="gradient-text">Greener Future</span> Together</h2>
+                <p style="font-size: 1.3rem; color: var(--text-muted); margin: 0 auto 3rem; max-width: 600px;">
+                    Verdleaf is more than an app. It's a <strong style="color: #fff;">movement powered by code</strong> and driven by purpose.
+                </p>
+                
+                <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                    <a href="#" class="cta-btn" style="padding: 1.2rem 3rem; background: linear-gradient(90deg, var(--primary), #00c27a); color: #000; text-decoration: none; font-weight: 700; border-radius: 50px; font-size: 1.2rem; display: inline-flex; align-items: center; gap: 10px;">
+                        <i data-lucide="play" size="20"></i> View Demo
+                    </a>
+                    <a href="https://github.com/debasishtripathy13" target="_blank" class="cta-btn cta-btn-secondary" style="padding: 1.2rem 3rem; background: rgba(255,255,255,0.05); color: white; text-decoration: none; font-weight: 700; border-radius: 50px; font-size: 1.2rem; border: 1px solid rgba(255,255,255,0.2); display: inline-flex; align-items: center; gap: 10px;">
+                        <i data-lucide="github" size="20"></i> GitHub
+                    </a>
+                </div>
+
+                <!-- Contact Footer -->
+                <div style="margin-top: 5rem; padding: 2rem; background: rgba(255,255,255,0.03); border-radius: 24px; border: 1px solid rgba(255,255,255,0.08);">
+                    <div style="display: flex; justify-content: center; align-items: center; gap: 4rem; flex-wrap: wrap;">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <div style="width: 48px; height: 48px; background: rgba(0,255,163,0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                                <i data-lucide="user" size="20" color="var(--primary)"></i>
+                            </div>
+                            <div style="text-align: left;">
+                                <p style="font-weight: 700; font-size: 1rem;">Debasish Tripathy</p>
+                                <p style="color: var(--text-muted); font-size: 0.85rem;">Founder & Lead Engineer</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <div style="width: 48px; height: 48px; background: rgba(0,212,255,0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                                <i data-lucide="mail" size="20" color="var(--accent)"></i>
+                            </div>
+                            <div style="text-align: left;">
+                                <p style="font-weight: 700; font-size: 1rem;">debasishtripathy7987@gmail.com</p>
+                                <p style="color: var(--text-muted); font-size: 0.85rem;">+91-8897008513</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <div style="width: 48px; height: 48px; background: rgba(112,0,255,0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                                <i data-lucide="map-pin" size="20" color="var(--secondary)"></i>
+                            </div>
+                            <div style="text-align: left;">
+                                <p style="font-weight: 700; font-size: 1rem;">Bengaluru, India</p>
+                                <p style="color: var(--text-muted); font-size: 0.85rem;">MIT Bengaluru</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <p style="margin-top: 2rem; font-size: 0.85rem; color: rgba(255,255,255,0.3);">🌱 Built with 💚 for a sustainable future</p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        lucide.createIcons();
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.3
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    const index = Array.from(document.querySelectorAll('.slide')).indexOf(entry.target);
+                    document.querySelectorAll('.nav-dot').forEach((dot, i) => {
+                        dot.classList.toggle('active', i === index);
+                    });
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.slide').forEach(slide => {
+            observer.observe(slide);
+        });
+
+        function scrollToSlide(index) {
+            const slides = document.querySelectorAll('.slide');
+            slides[index].scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

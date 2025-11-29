@@ -1,0 +1,403 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// USER & AUTHENTICATION
+// ============================================
+
+model User {
+  id            String    @id @default(cuid())
+  walletAddress String?   @unique
+  email         String?   @unique
+  name          String?
+  avatar        String?
+  
+  // Points & Rewards
+  ecoPoints     Int       @default(0)
+  ecoTokens     Int       @default(0)
+  totalXP       Int       @default(0)
+  level         Int       @default(1)
+  streak        Int       @default(0)
+  lastActiveAt  DateTime  @default(now())
+  
+  // Relationships
+  ecomon        EcoMon?
+  quizAttempts  QuizAttempt[]
+  verifications Verification[]
+  chatMessages  ChatMessage[]
+  achievements  Achievement[]
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+// ============================================
+// ECOMON (AI COMPANION)
+// ============================================
+
+model EcoMon {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Identity
+  name            String   @default("Seedling")
+  species         String   @default("leaf") // leaf, water, fire, earth, air
+  personality     String   @default("sage") // sage, cheerleader, scientist, empath
+  
+  // Evolution
+  evolutionStage  Int      @default(1) // 1-5
+  evolutionPath   String?  // forest-guardian, ocean-keeper, urban-sage, etc.
+  evolutionXP     Int      @default(0)
+  evolutionXPNeeded Int    @default(100)
+  
+  // Emotional State (Multi-dimensional)
+  trust           Int      @default(50) // 0-100
+  joy             Int      @default(50)
+  curiosity       Int      @default(50)
+  worry           Int      @default(50)
+  pride           Int      @default(50)
+  currentMood     String   @default("content") // happy, sad, excited, curious, worried, proud
+  
+  // Stats
+  happiness       Int      @default(50)
+  energy          Int      @default(100)
+  hunger          Int      @default(0)
+  
+  // Memories (stored as JSON)
+  memories        Json     @default("[]")
+  
+  // NFT
+  nftTokenId      String?
+  nftMintedAt     DateTime?
+  
+  // Dark Evolution (corruption risk)
+  corruptionLevel Int      @default(0) // 0-100, if 100 = dark form
+  isDarkForm      Boolean  @default(false)
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+// ============================================
+// QUIZ SYSTEM
+// ============================================
+
+model QuizAttempt {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Quiz Data
+  questions    Json     // Array of questions with answers
+  answers      Json     // User's answers
+  score        Int      // Correct answers count
+  totalQuestions Int    @default(5)
+  pointsEarned Int
+  xpEarned     Int      @default(0)
+  
+  // Timing
+  startedAt    DateTime @default(now())
+  completedAt  DateTime?
+  timeSpent    Int?     // seconds
+  
+  // Daily limit tracking
+  quizDate     DateTime @db.Date // Just the date part for daily limit
+  
+  createdAt    DateTime @default(now())
+  
+  @@unique([userId, quizDate]) // One quiz per user per day
+  @@index([userId])
+}
+
+model QuizQuestion {
+  id          String   @id @default(cuid())
+  question    String
+  options     Json     // Array of 4 options
+  correctIndex Int     // 0-3
+  category    String   // recycling, energy, water, wildlife, climate
+  difficulty  String   @default("medium") // easy, medium, hard
+  explanation String?  // Why this answer is correct
+  
+  usageCount  Int      @default(0)
+  
+  createdAt   DateTime @default(now())
+}
+
+// ============================================
+// ECO-ACTION VERIFICATION
+// ============================================
+
+model Verification {
+  id            String   @id @default(cuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Image Data
+  imageUrl      String
+  imageHash     String?  // For duplicate detection
+  
+  // Action Details
+  actionType    String   // recycle, plant-tree, clean-beach, public-transit, etc.
+  description   String?
+  
+  // Location & Time
+  latitude      Float?
+  longitude     Float?
+  timestamp     DateTime @default(now())
+  
+  // AI Verification
+  geminiAnalysis Json?   // Full Gemini response
+  confidence    Float?   // 0-1 confidence score
+  isVerified    Boolean  @default(false)
+  verifiedAt    DateTime?
+  
+  // Community Flagging
+  flagCount     Int      @default(0)
+  isFlagged     Boolean  @default(false)
+  flagReason    String?
+  
+  // Rewards
+  pointsAwarded Int      @default(0)
+  xpAwarded     Int      @default(0)
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  @@index([userId])
+  @@index([actionType])
+}
+
+// ============================================
+// CHAT MESSAGES
+// ============================================
+
+model ChatMessage {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  role      String   // user, ecomon
+  content   String
+  
+  // Context
+  mood      String?  // EcoMon's mood during this message
+  emotion   Json?    // Emotional state snapshot
+  
+  createdAt DateTime @default(now())
+  
+  @@index([userId])
+}
+
+// ============================================
+// ACHIEVEMENTS & BADGES
+// ============================================
+
+model Achievement {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  badgeId     String   // Reference to badge type
+  name        String
+  description String
+  icon        String
+  rarity      String   @default("common") // common, rare, epic, legendary
+  
+  unlockedAt  DateTime @default(now())
+  
+  @@unique([userId, badgeId])
+  @@index([userId])
+}
+
+// ============================================
+// QUESTS
+// ============================================
+
+model Quest {
+  id          String   @id @default(cuid())
+  
+  title       String
+  description String
+  type        String   // daily, weekly, special, seasonal
+  category    String   // recycle, energy, water, transport, nature
+  
+  // Requirements
+  actionType  String   // What action to perform
+  targetCount Int      @default(1) // How many times
+  
+  // Rewards
+  pointReward Int
+  xpReward    Int
+  tokenReward Int      @default(0)
+  
+  // Contextual
+  season      String?  // spring, summer, autumn, winter
+  weather     String?  // rainy, sunny, cloudy
+  location    String?  // urban, coastal, rural
+  
+  isActive    Boolean  @default(true)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model UserQuest {
+  id          String   @id @default(cuid())
+  
+  userId      String
+  questId     String
+  
+  progress    Int      @default(0)
+  isCompleted Boolean  @default(false)
+  completedAt DateTime?
+  
+  assignedAt  DateTime @default(now())
+  expiresAt   DateTime?
+  
+  @@unique([userId, questId])
+}
+
+// ============================================
+// GLOBAL STATS (Community Impact)
+// ============================================
+
+model GlobalStats {
+  id              String   @id @default("global")
+  
+  totalUsers      Int      @default(0)
+  totalEcoMons    Int      @default(0)
+  
+  treesPlanted    Int      @default(0)
+  itemsRecycled   Int      @default(0)
+  waterSavedLiters Float   @default(0)
+  carFreeCommutes Int      @default(0)
+  beachCleanups   Int      @default(0)
+  
+  updatedAt       DateTime @updatedAt
+}
+
+// ============================================
+// ECO STORE
+// ============================================
+
+model StoreOrder {
+  id              String   @id @default(cuid())
+  userId          String
+  
+  // Product Info
+  productId       String
+  productName     String
+  quantity        Int      @default(1)
+  
+  // Pricing
+  totalPoints     Int
+  totalETH        String?
+  
+  // Payment
+  paymentMethod   String   // 'points' or 'crypto'
+  transactionHash String?  // Blockchain tx hash for crypto payments
+  
+  // Status
+  status          String   @default("pending") // pending, confirmed, processing, shipped, delivered, cancelled
+  
+  // Shipping
+  shippingAddress Json?
+  trackingNumber  String?
+  
+  // Carbon Impact
+  carbonOffset    Float    @default(0)
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  @@index([userId])
+  @@index([status])
+}
+
+// ============================================
+// NFT COLLECTION (Solana)
+// ============================================
+
+model NFT {
+  id              String   @id @default(cuid())
+  userId          String
+  
+  // Solana NFT Data
+  mintAddress     String   @unique  // Solana mint address
+  tokenAddress    String?           // Token account address
+  metadataUri     String            // Off-chain metadata URI (IPFS/Arweave)
+  
+  // NFT Details
+  name            String
+  description     String
+  image           String            // Image URL
+  
+  // Collection Info
+  collection      String   @default("verdleaf-achievements")
+  category        String            // eco-action, milestone, rare, legendary
+  
+  // Attributes/Traits
+  attributes      Json     @default("[]")  // Array of {trait_type, value}
+  rarity          String   @default("common") // common, uncommon, rare, epic, legendary
+  rarityScore     Float    @default(0)
+  
+  // Achievement Link
+  achievementType String?           // What eco-action earned this NFT
+  achievementData Json?             // Specific data about the achievement
+  
+  // Blockchain Data
+  txSignature     String?           // Minting transaction signature
+  slot            Int?              // Solana slot number
+  blockTime       DateTime?         // When minted on-chain
+  
+  // Status
+  isBurned        Boolean  @default(false)
+  isListed        Boolean  @default(false)
+  listingPrice    Float?
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  @@index([userId])
+  @@index([collection])
+  @@index([rarity])
+}
+
+// NFT Collection Metadata
+model NFTCollection {
+  id              String   @id @default(cuid())
+  
+  // Collection Identity
+  name            String   @unique
+  symbol          String
+  description     String
+  image           String
+  externalUrl     String?
+  
+  // Solana Data
+  collectionMint  String?  @unique  // Collection NFT mint address
+  updateAuthority String?
+  
+  // Stats
+  totalMinted     Int      @default(0)
+  totalBurned     Int      @default(0)
+  floorPrice      Float?
+  
+  // Royalties
+  royaltyBps      Int      @default(500) // 5% = 500 basis points
+  royaltyAddress  String?
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+

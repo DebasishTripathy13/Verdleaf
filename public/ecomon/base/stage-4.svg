@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#10b981;stop-opacity:0.4" />
+      <stop offset="100%" style="stop-color:#059669;stop-opacity:0.6" />
+    </linearGradient>
+    <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#34d399" />
+      <stop offset="100%" style="stop-color:#059669" />
+    </linearGradient>
+  </defs>
+  
+  <circle cx="128" cy="128" r="120" fill="url(#bgGrad)" stroke="#22c55e" stroke-width="3"/>
+  
+  <!-- Body - guardian -->
+  <ellipse cx="128" cy="148" rx="55" ry="65" fill="url(#bodyGrad)"/>
+  
+  <!-- Eyes - determined -->
+  <circle cx="105" cy="128" r="14" fill="white"/>
+  <circle cx="151" cy="128" r="14" fill="white"/>
+  <circle cx="108" cy="130" r="7" fill="#1f2937"/>
+  <circle cx="154" cy="130" r="7" fill="#1f2937"/>
+  <circle cx="110" cy="128" r="2.5" fill="white"/>
+  <circle cx="156" cy="128" r="2.5" fill="white"/>
+  
+  <!-- Confident smile -->
+  <path d="M 108 160 Q 128 180 148 160" stroke="#1f2937" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+  
+  <!-- Majestic leaf crown -->
+  <path d="M 128 78 Q 175 35 200 55 Q 175 90 128 88" fill="#22c55e"/>
+  <path d="M 128 78 Q 81 35 56 55 Q 81 90 128 88" fill="#22c55e"/>
+  <path d="M 128 65 Q 145 30 160 45 Q 145 70 128 78 Q 111 70 96 45 Q 111 30 128 65" fill="#16a34a"/>
+  <path d="M 128 55 L 128 78" stroke="#15803d" stroke-width="3"/>
+  
+  <!-- Leaf patterns on body -->
+  <path d="M 100 170 Q 90 180 95 190" stroke="#16a34a" stroke-width="2" fill="none"/>
+  <path d="M 156 170 Q 166 180 161 190" stroke="#16a34a" stroke-width="2" fill="none"/>
+  
+  <!-- Glow effect -->
+  <circle cx="128" cy="128" r="85" fill="none" stroke="#34d399" stroke-width="1" opacity="0.5"/>
+  
+  <!-- Sparkles -->
+  <path d="M 35 45 L 44 62 L 35 79 L 26 62 Z" fill="#fcd34d"/>
+  <path d="M 215 40 L 224 57 L 215 74 L 206 57 Z" fill="#fcd34d"/>
+  <path d="M 190 175 L 199 192 L 190 209 L 181 192 Z" fill="#fcd34d"/>
+  <path d="M 60 180 L 69 197 L 60 214 L 51 197 Z" fill="#fcd34d"/>
+</svg>

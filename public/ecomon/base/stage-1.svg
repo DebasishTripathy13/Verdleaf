@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#10b981;stop-opacity:0.3" />
+      <stop offset="100%" style="stop-color:#059669;stop-opacity:0.5" />
+    </linearGradient>
+    <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#34d399" />
+      <stop offset="100%" style="stop-color:#10b981" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="128" cy="128" r="120" fill="url(#bgGrad)" stroke="#34d399" stroke-width="2"/>
+  
+  <!-- Body - small seed -->
+  <ellipse cx="128" cy="150" rx="35" ry="40" fill="url(#bodyGrad)"/>
+  
+  <!-- Eyes -->
+  <circle cx="115" cy="140" r="8" fill="white"/>
+  <circle cx="141" cy="140" r="8" fill="white"/>
+  <circle cx="117" cy="142" r="4" fill="#1f2937"/>
+  <circle cx="143" cy="142" r="4" fill="#1f2937"/>
+  
+  <!-- Smile -->
+  <path d="M 118 155 Q 128 162 138 155" stroke="#1f2937" stroke-width="2" fill="none" stroke-linecap="round"/>
+  
+  <!-- Small leaf sprout -->
+  <path d="M 128 110 Q 135 95 145 100 Q 140 110 128 115 Q 116 110 111 100 Q 121 95 128 110" fill="#22c55e"/>
+  
+  <!-- Sparkle -->
+  <path d="M 170 80 L 175 90 L 170 100 L 165 90 Z" fill="#fcd34d"/>
+</svg>
