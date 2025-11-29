@@ -1,0 +1,10 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  # Tell secrets scanner to ignore example env files with placeholder values
+  SECRETS_SCAN_OMIT_PATHS = ".env.example"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
