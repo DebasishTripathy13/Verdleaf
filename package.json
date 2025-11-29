@@ -4,6 +4,7 @@
   "description": "EcoMon Guardian - Web3 AI companion that evolves through verified real-world eco-actions",
   "private": true,
   "scripts": {
+    "postinstall": "prisma generate",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
