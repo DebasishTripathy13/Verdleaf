@@ -43,12 +43,17 @@ check_docker() {
         exit 1
     fi
     
-    if ! command -v docker-compose &> /dev/null && ! docker compose version &> /dev/null; then
+    # Determine docker compose command
+    if docker compose version &> /dev/null 2>&1; then
+        DOCKER_COMPOSE="docker compose"
+    elif command -v docker-compose &> /dev/null; then
+        DOCKER_COMPOSE="docker-compose"
+    else
         print_error "Docker Compose is not installed. Please install Docker Compose first."
         exit 1
     fi
     
-    print_success "Docker is installed"
+    print_success "Docker is installed (using: $DOCKER_COMPOSE)"
 }
 
 # Check if .env file exists
@@ -70,14 +75,14 @@ check_env() {
 # Build the Docker image
 build() {
     print_header "Building Verdleaf Docker Image"
-    docker compose build --no-cache
+    $DOCKER_COMPOSE build
     print_success "Build completed"
 }
 
 # Start all services
 start() {
     print_header "Starting Verdleaf Services"
-    docker compose up -d
+    $DOCKER_COMPOSE up -d
     print_success "Services started"
     
     echo -e "\n${GREEN}Verdleaf is running at: http://localhost:3000${NC}\n"
@@ -86,45 +91,45 @@ start() {
 # Stop all services
 stop() {
     print_header "Stopping Verdleaf Services"
-    docker compose down
+    $DOCKER_COMPOSE down
     print_success "Services stopped"
 }
 
 # Restart all services
 restart() {
     print_header "Restarting Verdleaf Services"
-    docker compose restart
+    $DOCKER_COMPOSE restart
     print_success "Services restarted"
 }
 
 # View logs
 logs() {
-    docker compose logs -f "${1:-app}"
+    $DOCKER_COMPOSE logs -f "${1:-app}"
 }
 
 # Run database migrations
 migrate() {
     print_header "Running Database Migrations"
-    docker compose --profile migrate up migrate
+    $DOCKER_COMPOSE --profile migrate up migrate
     print_success "Migrations completed"
 }
 
 # Open shell in app container
 shell() {
-    docker compose exec app sh
+    $DOCKER_COMPOSE exec app sh
 }
 
 # Clean up everything
 clean() {
     print_header "Cleaning Up"
-    docker compose down -v --rmi all --remove-orphans
+    $DOCKER_COMPOSE down -v --rmi all --remove-orphans
     print_success "Cleanup completed"
 }
 
 # Show status
 status() {
     print_header "Verdleaf Service Status"
-    docker compose ps
+    $DOCKER_COMPOSE ps
 }
 
 # Health check
@@ -132,7 +137,7 @@ health() {
     print_header "Health Check"
     
     # Check database
-    if docker compose exec db pg_isready -U verdleaf &> /dev/null; then
+    if $DOCKER_COMPOSE exec db pg_isready -U verdleaf &> /dev/null; then
         print_success "Database: Healthy"
     else
         print_error "Database: Unhealthy"
@@ -159,14 +164,20 @@ deploy_prod() {
         git pull origin main
     fi
     
-    # Build and start
-    build
+    # Build
+    print_header "Building Verdleaf Docker Image"
+    $DOCKER_COMPOSE build
+    print_success "Build completed"
     
     # Run migrations
-    migrate
+    print_header "Running Database Migrations"
+    $DOCKER_COMPOSE --profile migrate up migrate
+    print_success "Migrations completed"
     
     # Start services
-    start
+    print_header "Starting Verdleaf Services"
+    $DOCKER_COMPOSE up -d
+    print_success "Services started"
     
     # Wait for app to be ready
     echo -e "\n${YELLOW}Waiting for application to be ready...${NC}"
