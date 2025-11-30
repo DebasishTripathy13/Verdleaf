@@ -1,4 +1,4 @@
-# 🌱 EcoMon Guardian
+# 🌱 Verdleaf Guardian
 
 A Web3-powered AI companion app where your digital creature evolves through verified real-world eco-actions. Combines gamification, AI, and blockchain to make environmental action fun and rewarding.
 
@@ -39,8 +39,8 @@ A Web3-powered AI companion app where your digital creature evolves through veri
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/ecomon-guardian.git
-   cd ecomon-guardian
+   git clone https://github.com/debasishtripathy13/Verdleaf.git
+   cd Verdleaf
    ```
 
 2. **Install dependencies**
